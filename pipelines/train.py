@@ -23,6 +23,7 @@ def setHotEncoding(x_df, columnName):
     column = pd.get_dummies(x_df[columnName], prefix=columnName)
     x_df.drop(columnName, inplace=True, axis=1)
     x_df = x_df.join(column)
+    return x_df
 
 
 
@@ -33,7 +34,7 @@ def clean_data(data):
     
     columns_to_dummify = ["Airline", "AirportFrom", "AirportTo"]
     for col in columns_to_dummify :
-        setHotEncoding(x_df, col)
+        x_df = setHotEncoding(x_df, col)
 
     y_df = x_df.pop("Delay")
     return x_df, y_df
@@ -54,17 +55,16 @@ def main():
     run.log("Regularization Strength:", np.float(args.C))
     run.log("Max iterations:", np.int(args.max_iter))
 
-    ws = Workspace.from_config()
-    dataset = Dataset.get_by_name(ws, name='airline-ws')
-    df = dataset.to_pandas_dataframe()
-    df = dataset.to_pandas_dataframe()
+    data_path = 'https://airline-ci.francecentral.instances.azureml.ms/edit/Airlines.csv'
+    ds = TabularDatasetFactory.from_delimited_files(data_path, validate=True, include_path=False, 
+        infer_column_types=True, set_column_types=None, separator=',', header=True, partition_format=None, 
+        support_multi_line=False, empty_as_string=False, encoding='utf8')
+    x_df = ds.to_pandas_dataframe().dropna()
     
-    x, y = clean_data(df)
+    x, y = clean_data(x_df)
 
     # Split data into train and test sets.
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7,test_size=0.3, random_state=101)
-
-    ### YOUR CODE HERE ###
 
     model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
     os.makedirs('outputs', exist_ok=True)

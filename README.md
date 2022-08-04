@@ -11,12 +11,12 @@ Airlines dataset has 539383 instances and 8 different features. The task is to p
 
 Different Feature Names
 
-1.Airline
-2.Flight
-3.Airport From
-4.Airport To
-5.DayOfWeek
-6.Time
+1. Airline
+2. Flight
+3. Airport From
+4. Airport To
+5. DayOfWeek
+6. Time
 
 For the classification, two approaches have been used:
 
@@ -26,17 +26,29 @@ For the classification, two approaches have been used:
 
 ## Initial steps :
 
-1. Run **scripts\Workspace_create.ps1** in order to create a workspace called **airline-ws**.
+1. Run **scripts\Workspace_create.ps1** in order to create a workspace called **airline-ws**
 <img src="/pictures/workspace.png" title="workspace"  width="700">
+
 2. Create a dataset, called **airline-ds** and upload **data\Airlines.csv**
 <img src="/pictures/dataset.png" title="dataset"  width="700">
-3. Create a compute instance and open a Jupyter.
-4. Upload Data.
-5. Run the notebooks.
+
+3. Create a compute instance called **airline-ci** and open a Jupyter.
+<img src="/pictures/compute_instance.png" title="compute instance"  width="300">
 
 
 ## Scikit-learn Pipeline
 
+1. Run notebook **pipelines\hyperdrive.ipynb**. Don't forget to upload the **config.json** file from the Azure portal!!
+
+As you run through the cells, you should see the following results :
+
+A compute cluster should be created :
+<img src="/pictures/compute_cluster.png" title="compute cluster"  width="700">
+
+Some jobs should be triggered :
+<img src="/pictures/job.png" title="job"  width="700">
 
 
 ## AutoML
+
+1. Run notebook **pipelines\automl.ipynb**.
